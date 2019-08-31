@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.clothing.dao.type.TypeMapper">
+	<resultMap type="type" id="TypeResult" >
+		<id property="typeId" column="typeId" javaType="int"/>
+		<result property="typeName" column="typeName" javaType="string"/>
+	</resultMap>
+	 <select id="getAllType" resultMap="TypeResult" >
+		select * from `type` 
+	</select>
+	<select id="getTypeById" resultMap="TypeResult" parameterType="int">
+		select * from `type` where typeId=#{typeId}
+	</select>
+</mapper>
+
+
+

@@ -1,0 +1,47 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+/*主内容部分*/
+#main{
+	width:900px;
+	margin: 10px auto;
+}
+
+/* 图片部分 */
+#pics{
+	width: 900px;
+	margin: 20px auto;
+	
+}
+.pic{
+	width: 160px;
+	margin-right:20px;
+	
+}
+
+.pic dt img{
+	width:160px;
+	height: 160px;
+}
+.pic dd{
+	margin-top:5px;
+}
+.pic dd img{
+	width:34px;
+	height:34px;
+}
+
+
+.div3{
+   clear:both;
+   height:0；   
+   overflow:hidden;
+  } 
+  
+  .clearfix:after {
+    content:"";
+    clear:both;/*清除浮动*/
+    display:block;/*确保该元素是一个块级元素*/
+}

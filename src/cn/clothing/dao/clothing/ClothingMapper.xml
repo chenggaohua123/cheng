@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.clothing.dao.clothing.ClothingMapper">
+
+	<resultMap type="clothing" id="clothingResult">
+		<id property="id" column="id"/>
+		<result property="size" column="size"/>
+		<result property="color" column="color"/>
+		<result property="brand" column="brand"/>
+		<result property="title" column="title"/>
+		<result property="number" column="number"/>
+		<result property="oldprice" column="oldprice"/>
+		<result property="discountprice" column="discountprice"/>
+		<result property="time" column="time"/>
+		<result property="material" column="material"/>
+		<result property="code" column="code"/>
+		<result property="listingTime" column="listing_time" />
+		<result property="insertTime" column="insert_time" />
+		<result property="updateTime" column="update_time" />
+		<association property="typePojo" javaType="type" resultMap="TypeResult" />
+		<collection property="imgList" ofType="image" resultMap="imageResult" />
+	</resultMap>
+	
+	<resultMap type="type" id="TypeResult" >
+		<id property="typeId" column="typeId"/>
+		<result property="typeName" column="typeName"/>
+	</resultMap>
+	
+	
+	<resultMap type="image" id="imageResult">
+		<id property="imgId" column="imgId"/>
+		<result property="imgpath" column="imgpath"/>
+		<result property="imgName" column="imgName"/>
+		<association property="clothing" javaType="clothing" resultMap="clothingResult" />
+	</resultMap>
+	
+	<select id="getAllClothing" resultMap="clothingResult" parameterType="int">
+		select * from `clothing` c,`type` t,`image` i
+		where c.typeId=t.typeId and c.id=i.clothingId
+		<if test="typeId != null">
+			and c.typeId=#{typeId}
+		</if>
+	</select>
+	
+	<select id="getClothingList" resultMap="clothingResult" parameterType="cn.clothing.util.BiographyUtil">
+		select * from `clothing` c,`type` t,`image` i
+		where c.typeId=t.typeId and c.id=i.clothingId
+		<include refid="wheresql"></include>
+	</select>
+	<sql id="wheresql">
+		<if test="bu.parametersMap.id!=null">
+			and c.id=#{bu.parametersMap.id}
+		</if>
+		<if test="bu.parametersMap.typeId!=null">
+			and c.typeId=#{bu.parametersMap.typeId}
+		</if>
+		<if test="bu.parametersMap.color!=null">
+			and c.color=#{bu.parametersMap.color}
+		</if>
+		<if test="bu.parametersMap.brand!=null">
+			and c.brand=#{bu.parametersMap.brand}
+		</if>
+		<if test="bu.parametersMap.title!=null">
+			and c.title like concat('%',#{bu.parametersMap.title},'%') 
+		</if>
+		<if test="bu.parametersMap.code!=null">
+			and c.code=#{bu.parametersMap.code}
+		</if>
+		<if test="bu.parametersMap.material!=null">
+			and c.material=#{bu.parametersMap.material}
+		</if>
+	</sql>
+	<!-- <select id="getAllClothing" resultType="map" parameterType="int">
+		select c.*,t.typeName from `clothing` c,`type` t,`image` i
+		where c.typeId=t.typeId and c.id=i.clothingId
+		<if test="typeId != null">
+			and c.typeId=#{typeId}
+		</if>
+	</select> -->
+	
+	<select id="getClothing" resultMap="clothingResult" parameterType="int">
+		select * from `clothing` c,`type` t
+		where c.typeId=t.typeId 
+	</select>
+	
+	<select id="getClothingById" resultMap="clothingResult" parameterType="int">
+		select * from `clothing` c,`type` t
+		where c.typeId=t.typeId and c.id=#{id}
+	</select>
+	<insert id="addClothing" parameterType="clothing">
+		insert into `clothing` (`id`,`size`,`typeId`,`color`,`brand`,`number`,`title`,`oldprice`,`discountprice`,`listing_time`,`material`,`code`,`update_time`,`insert_time`)
+		values (#{id},#{size},#{typePojo.typeId},#{color},#{brand},#{number},#{title},#{oldprice},#{discountprice},#{listingTime},#{material},#{code},#{updateTime},#{insertTime})
+	</insert>
+	
+	
+	
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.clothing.dao.image.ImageMapper">
+
+	<resultMap type="clothing" id="colthingResult">
+		<id property="id" column="id"/>
+		<result property="size" column="size"/>
+		<result property="color" column="color"/>
+		<result property="brand" column="brand"/>
+		<result property="title" column="title"/>
+		<result property="number" column="number"/>
+		<result property="oldprice" column="oldprice"/>
+		<result property="discountprice" column="discountprice"/>
+		<result property="time" column="time"/>
+		<result property="material" column="material"/>
+		<result property="code" column="code"/>
+		<association property="type" javaType="type" resultMap="TypeResult" />
+		<collection property="imgList" ofType="image" resultMap="imageResult" />
+	</resultMap>
+	
+	<!-- <resultMap type="type" id="TypeResult" >
+		<id property="typeId" column="typeId"/>
+		<result property="typeName" column="typeName"/>
+	</resultMap> -->
+	
+	
+	<resultMap type="image" id="imageResult">
+		<id property="imgId" column="imgId"/>
+		<result property="imgpath" column="imgpath"/>
+		<result property="imgName" column="imgName"/>
+		<association property="clothing" javaType="clothing" resultMap="colthingResult" />
+	</resultMap>
+	
+	<insert id="saveImg" parameterType="image">
+		insert into `image` (`clothingId`,`imgPath`,`imgName`) values (#{clothing.id},#{imgpath},#{imgName})
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
